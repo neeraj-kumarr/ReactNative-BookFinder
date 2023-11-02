@@ -1,47 +1,20 @@
 import React from 'react';
-import { Text, StyleSheet, View, ScrollView, FlatList, } from 'react-native';
+import { Text, StyleSheet, View, FlatList, } from 'react-native';
 import { Searchbar, Avatar, Card } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Stars from 'react-native-stars';
 import Spinner from './Spinner';
 import { useBooksData } from '../Context/BooksData';
-
 function HomeScreen() {
 
+
     const [searchQuery, setSearchQuery] = React.useState('');
-    const { data, isLoading } = useBooksData();
+    const { data, isLoading } = useBooksData(); // Using data through ContextAPI
 
-
+    // To show search text
     const onChangeSearch = query => setSearchQuery(query);
 
-    // const getAPIData = async () => {
-
-    //     try {
-    //         const url = "https://books-list-api.vercel.app/books";
-    //         const headers = {
-    //             Accept: 'application/json',
-    //             'Content-Type': 'application/json',
-    //             'x-api-key': '#b0@6hX8YasCq6^unOaPw1tqR',
-    //         };
-
-    //         let response = await fetch(url, { headers });
-
-    //         if (!response.ok) {
-    //             throw new Error('Network response was not ok');
-    //         }
-
-    //         const result = await response.json();
-    //         setData(result.data);
-    //         setIsLoading(false);
-
-    //     } catch (error) {
-    //         console.error("An error occurred while fetching data:", error);
-    //     }
-    // }
-    // useEffect(() => {
-    //     getAPIData()
-    // }, [])
-
+    // To handle search results by filtering through search keyword
     const filteredData = data.filter(book => {
         return book.title.toLowerCase().includes(searchQuery.toLowerCase());
     });
@@ -49,18 +22,23 @@ function HomeScreen() {
     return (
         <View>
             <View style={styles.container}>
+
+                {/* Name and Image on Top */}
                 <Text style={styles.text}>Hi Neeraj</Text>
                 <Avatar.Image size={50} source={require('../images/avtar.png')} />
             </View>
+
+            {/* Search bar component */}
             <Searchbar
                 style={{ margin: 12 }}
                 placeholder="Search..."
                 onChangeText={onChangeSearch}
                 value={searchQuery}
             />
-            {isLoading ? ( // Display spinner while data is being fetched
+            {isLoading ? ( // Show Spinner, until data is loaded.
                 <Spinner />
             ) : (
+                // Show List of books
                 <FlatList
                     data={filteredData}
                     keyExtractor={(book) => book.title}
@@ -71,13 +49,17 @@ function HomeScreen() {
                                 <Card >
                                     <Card.Cover source={{ uri: book.imageLink }} />
                                     <View style={book.is_liked ? styles.likedHeartContainer : styles.unlikedHeartContainer}>
+
+                                        {/* Show Heart on books picture */}
                                         <MaterialCommunityIcons name="heart-circle" size={30} color='white' />
                                     </View>
-
                                 </Card>
+
+                                {/* Book Details including, text, rating and review count */}
                                 <View style={{ padding: 5 }}>
                                     <Text style={styles.text}>{book.title}</Text>
                                     <Text style={{ paddingTop: 5, paddingBottom: 5 }}>
+
                                         <Stars
                                             display={book.rating}
                                             spacing={2}
@@ -100,9 +82,9 @@ function HomeScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row', // To align items horizontally
-        alignItems: 'center', // To vertically center items
-        justifyContent: 'space-between', // To place items at both ends
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         padding: 20
     },
     text: {
@@ -117,7 +99,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
     card: {
-        flex: 1, // Added to allow flexible width for cards
+        flex: 1,
     },
     likedHeartContainer: {
         position: 'absolute',

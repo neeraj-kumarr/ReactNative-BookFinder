@@ -1,21 +1,29 @@
 import React from 'react';
 import { Text, StyleSheet, View, ScrollView } from 'react-native';
-import { Card, Button, Icon, MD3Colors } from 'react-native-paper';
-// import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { Card, Button, Icon } from 'react-native-paper';
 import { useBooksData } from '../Context/BooksData';
 import Stars from 'react-native-stars';
 
 function BookScreen() {
-    const { data } = useBooksData();
+    const { data } = useBooksData();   // Using data through ContextAPI
 
     return (
         <ScrollView>
             <View style={styles.container}>
+                {/* Left Arrow Icon on top */}
+                <Icon
+                    source="arrow-left"
+                    color='black'
+                    size={35}
+                />
                 {data.length ?
-                    data.map((item) =>
-                        <View key={item.title}>
+                    data.map((item, index) =>
+                        <View key={index} style={{ paddingTop: 20 }}>
+
+                            {/* Showing Book Details with Reviews count, Rating and Price  */}
                             <Card style={styles.cardStyle}>
                                 <Card.Cover style={styles.cardImage} source={{ uri: item.imageLink }} />
+
                                 <View style={styles.cardContent}>
                                     <View style={styles.cardText}>
                                         <Text style={{ fontWeight: 'bold', fontSize: 17, fontFamily: 'monospace' }} >Rating</Text>
@@ -25,7 +33,9 @@ function BookScreen() {
                                                 spacing={2}
                                                 count={5}
                                                 starSize={15}
-                                            /></Text>
+
+                                            />
+                                        </Text>
                                     </View>
 
                                     <View style={styles.cardText}>
@@ -36,8 +46,10 @@ function BookScreen() {
                                     </View>
                                 </View>
                             </Card>
+
+                            {/* More Book Details such as Author, Country and Language etc */}
                             <Text style={{ paddingTop: 15, paddingBottom: 15, fontSize: 25 }}>
-                                <Text style={{ fontWeight: 'bold' }}>{item.title}</Text>
+                                <Text style={{ fontWeight: 'bold', textDecorationLine: 'underline' }}>{item.title}</Text>
                             </Text>
                             <Text style={styles.bookDetails}>
                                 <Text style={{ fontWeight: 'bold' }}>Author:</Text> {item.author}
@@ -54,7 +66,9 @@ function BookScreen() {
                             <Text style={styles.bookDetails}>
                                 <Text style={{ fontWeight: 'bold' }}>Pages:</Text> {item.pages}
                             </Text>
-                            <View style={{ padding: 15 }}>
+
+                            {/* View Details Button */}
+                            <View style={{ paddingTop: 25 }}>
                                 <Button style={{ backgroundColor: '#004D6D', borderRadius: 10 }} contentStyle={{ flexDirection: 'row-reverse' }} icon="arrow-right-thick" size={20} mode="contained" onPress={() => console.log('Pressed')}>
                                     <Text style={{ fontSize: 20 }}>  View Details</Text>
                                 </Button>
@@ -88,15 +102,21 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     cardImage: {
-        // height: 500,
+        height: 350,
         // objectFit: 'cover'
     },
     bookDetails: {
         fontSize: 15,
         fontFamily: 'monospace',
         padding: 2
-    }
-
+    },
+    myStarStyle: {
+        color: 'yellow',
+        backgroundColor: 'transparent',
+        textShadowColor: 'black',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 2,
+    },
 
 });
 
