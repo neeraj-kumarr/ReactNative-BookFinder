@@ -1,52 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Text, StyleSheet, View, ScrollView, FlatList, } from 'react-native';
 import { Searchbar, Avatar, Card } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import Stars from 'react-native-stars';
 import Spinner from './Spinner';
+import { useBooksData } from '../Context/BooksData';
 
 function HomeScreen() {
 
     const [searchQuery, setSearchQuery] = React.useState('');
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const { data, isLoading } = useBooksData();
+
 
     const onChangeSearch = query => setSearchQuery(query);
 
-    const getAPIData = async () => {
+    // const getAPIData = async () => {
 
-        try {
-            const url = "https://books-list-api.vercel.app/books";
-            const headers = {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'x-api-key': '#b0@6hX8YasCq6^unOaPw1tqR',
-            };
+    //     try {
+    //         const url = "https://books-list-api.vercel.app/books";
+    //         const headers = {
+    //             Accept: 'application/json',
+    //             'Content-Type': 'application/json',
+    //             'x-api-key': '#b0@6hX8YasCq6^unOaPw1tqR',
+    //         };
 
-            let response = await fetch(url, { headers });
+    //         let response = await fetch(url, { headers });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+    //         if (!response.ok) {
+    //             throw new Error('Network response was not ok');
+    //         }
 
-            const result = await response.json();
-            setData(result.data);
-            setIsLoading(false);
+    //         const result = await response.json();
+    //         setData(result.data);
+    //         setIsLoading(false);
 
-        } catch (error) {
-            console.error("An error occurred while fetching data:", error);
-        }
-    }
-    useEffect(() => {
-        getAPIData()
-    }, [])
+    //     } catch (error) {
+    //         console.error("An error occurred while fetching data:", error);
+    //     }
+    // }
+    // useEffect(() => {
+    //     getAPIData()
+    // }, [])
 
     const filteredData = data.filter(book => {
         return book.title.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
     return (
-        <ScrollView>
+        <View>
             <View style={styles.container}>
                 <Text style={styles.text}>Hi Neeraj</Text>
                 <Avatar.Image size={50} source={require('../images/avtar.png')} />
@@ -93,7 +94,7 @@ function HomeScreen() {
                 />
             )}
 
-        </ScrollView>
+        </View>
     );
 }
 

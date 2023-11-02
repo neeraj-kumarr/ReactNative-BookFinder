@@ -3,13 +3,17 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
-import HomeScreen from './Components/HomeScreen';
+import { BooksDataProvider } from './Context/BooksData';
+import BookScreen from './Components/BookScreen';
 
 function App() {
   return (
-    <View style={styles.container}>
-      <HomeScreen />
-    </View>
+    <BooksDataProvider>
+      <View style={styles.container}>
+        <BookScreen />
+      </View>
+    </BooksDataProvider>
+
   );
 }
 
