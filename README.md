@@ -1,0 +1,1 @@
+This app seamlessly incorporates API integration and state management through ContextAPI. It offers book searching by title, providing a comprehensive list of matching books. Within the search results, each book includes the title, author, cover image, price, and review count, presenting all the essential details at a glance.
