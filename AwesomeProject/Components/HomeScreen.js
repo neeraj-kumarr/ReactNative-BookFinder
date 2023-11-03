@@ -5,8 +5,8 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Stars from 'react-native-stars';
 import Spinner from './Spinner';
 import { useBooksData } from '../Context/BooksData';
-function HomeScreen() {
 
+function HomeScreen(props) {
 
     const [searchQuery, setSearchQuery] = React.useState('');
     const { data, isLoading } = useBooksData(); // Using data through ContextAPI
@@ -22,10 +22,9 @@ function HomeScreen() {
     return (
         <View>
             <View style={styles.container}>
-
-                {/* Name and Image on Top */}
                 <Text style={styles.text}>Hi Neeraj</Text>
                 <Avatar.Image size={50} source={require('../images/avtar.png')} />
+
             </View>
 
             {/* Search bar component */}
@@ -35,10 +34,11 @@ function HomeScreen() {
                 onChangeText={onChangeSearch}
                 value={searchQuery}
             />
+
             {isLoading ? ( // Show Spinner, until data is loaded.
                 <Spinner />
             ) : (
-                // Show List of books
+                // Show List of books with title, rating and review count.
                 <FlatList
                     data={filteredData}
                     keyExtractor={(book) => book.title}
@@ -46,11 +46,14 @@ function HomeScreen() {
                     renderItem={({ item: book }) => (
                         <View style={styles.cardContainer}>
                             <View style={styles.card} >
-                                <Card >
+
+                                <Card onPress={() => props.navigation.navigate('BookScreen', { book: book })}>
                                     <Card.Cover source={{ uri: book.imageLink }} />
+
+                                    {/* If the picture isliked, show heart */}
                                     <View style={book.is_liked ? styles.likedHeartContainer : styles.unlikedHeartContainer}>
 
-                                        {/* Show Heart on books picture */}
+                                        {/*  Heart Component on books picture */}
                                         <MaterialCommunityIcons name="heart-circle" size={30} color='white' />
                                     </View>
                                 </Card>
@@ -58,6 +61,7 @@ function HomeScreen() {
                                 {/* Book Details including, text, rating and review count */}
                                 <View style={{ padding: 5 }}>
                                     <Text style={styles.text}>{book.title}</Text>
+
                                     <Text style={{ paddingTop: 5, paddingBottom: 5 }}>
 
                                         <Stars
@@ -75,7 +79,6 @@ function HomeScreen() {
                     )}
                 />
             )}
-
         </View>
     );
 }
@@ -93,7 +96,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     cardContainer: {
-        flex: 1, // Added to allow flexible width for cards
+        flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         padding: 20,

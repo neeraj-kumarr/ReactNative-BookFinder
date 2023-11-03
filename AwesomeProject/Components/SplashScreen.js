@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
 
     StyleSheet,
     Image, View,
 } from 'react-native';
 
-function SplashScreen() {
+function SplashScreen(props) {
+
+    useEffect(() => {
+        // Use a timer to navigate to the next screen after a few seconds
+        setTimeout(() => {
+            props.navigation.navigate('HomeScreen');
+        }, 1000);
+    }, []);
+
     return (
         <View style={styles.container}>
             <Image style={styles.logo} source={require('../images/book-icon.png')} />
         </View>
+
+
     );
 }
 
@@ -22,7 +32,7 @@ const styles = StyleSheet.create({
     },
 
     logo: {
-        width: 157, height: 186.01
+        width: 170, height: 200
     }
 });
 
