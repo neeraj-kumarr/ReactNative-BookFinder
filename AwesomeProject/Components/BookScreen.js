@@ -4,7 +4,8 @@ import { Card, Button } from 'react-native-paper';
 import Stars from 'react-native-stars';
 
 function BookScreen({ route }) {
-    // Get the selected book from route.params
+
+    // selected book 
     const selectedBook = route.params.book;
     return (
         <ScrollView>

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { Text, StyleSheet, View, FlatList, } from 'react-native';
 import { Searchbar, Avatar, Card } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -28,13 +28,14 @@ function HomeScreen(props) {
             </View>
 
             {/* Search bar component */}
-            <Searchbar
-                style={{ margin: 12 }}
-                placeholder="Search..."
-                onChangeText={onChangeSearch}
-                value={searchQuery}
-            />
-
+            <View>
+                <Searchbar
+                    style={{ margin: 12, fontFamily: 'Times New Roman' }}
+                    placeholder="Search..."
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                />
+            </View>
             {isLoading ? ( // Show Spinner, until data is loaded.
                 <Spinner />
             ) : (
